@@ -1,1 +1,1 @@
-weather app using api
+weather app using api and tkinter GUI

@@ -1,1 +1,1 @@
-paint clone app
+paint clone app using Tkinter GUI

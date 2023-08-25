@@ -1,1 +1,1 @@
-deal finder
+deal finder using BeautifulSoup 

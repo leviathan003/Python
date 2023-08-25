@@ -1,1 +1,1 @@
-calculator app
+calculator app made using kivy gui
