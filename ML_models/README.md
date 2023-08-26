@@ -1,0 +1,1 @@
+A collection of Restricted Learning ML Models involving SVM,Logistic Regression,Naive-Bayes and KNN models
