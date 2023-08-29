@@ -34,7 +34,7 @@ class startPage():
     def sort_Visualwindow(self,name):
         pygame.init()
         
-        icon=pygame.image.load('Uploaded/sort_visualizer/sort_visualizer_icon.png')
+        icon=pygame.image.load('d:/CODE/Python/sort_visualizer/sort_visualizer_icon.png')
         pygame.display.set_icon(icon)
 
         self.win=pygame.display.set_mode((500,400))
