@@ -8,7 +8,7 @@ class startPage():
         self.root.title("Sorting Algorithm Visualizer")
         self.root.geometry('300x400')
         self.root.config(bg='black')
-        icon=PhotoImage(file='Uploaded/sort_visualizer/sort_visualizer_icon.png')
+        icon=PhotoImage(file='d:/CODE/Python/sort_visualizer/sort_visualizer_icon.png')
         self.root.iconphoto(False,icon)
 
         head=Label(self.root,text="Sorting Algorithm\nVisualizer",font='Arial 20 bold',bg='black',fg='white',relief='solid',borderwidth=3)

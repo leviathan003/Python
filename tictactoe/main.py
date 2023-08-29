@@ -10,7 +10,7 @@ root=tkinter.Tk()
 root.geometry("550x550+800+80")
 root.config(bg="black")
 root.title("Tic Tac Toe")
-bg_img=ImageTk.PhotoImage(Image.open("Uploaded/tictactoe/TIC tAC TOE.png"))
+bg_img=ImageTk.PhotoImage(Image.open("d:/CODE/Python/tictactoe/TIC tAC TOE.png"))
 
 class Player1:
     score=0
