@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="reosurces_logo">
+    <file>patient-bed-hospital-svgrepo-com.svg</file>
+    <file>admin-with-cogwheels-svgrepo-com.svg</file>
+    <file>back-svgrepo-com.svg</file>
+    <file>caduceus-svgrepo-com.svg</file>
+  </qresource>
+</RCC>
