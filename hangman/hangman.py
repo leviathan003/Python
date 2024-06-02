@@ -33,6 +33,6 @@ word_list = [letter if letter in used_letter else ' _ ' for letter in word]
 print('Current Word: '," ".join(word_list))
 
 if lives==0:
-    print("You ded nigga! The correct word was: ",word,"\n")
+    print("You died! The correct word was: ",word,"\n")
 else:
     print("Yay! You got the correct word: "," ".join(word_list),"\n")
