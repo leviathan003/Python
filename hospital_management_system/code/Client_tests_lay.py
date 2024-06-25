@@ -98,6 +98,7 @@ class Client_tests(object):
                 self.insuranceWaiverDisp.setText("100%")
             else:
                 self.showWarningMessage("Insurance Number not registered!!")
+                self.insuranceWaiverDisp.setText("0%")
 
     def updateTestTable(self,data):
         self.test_data_thread.retrievalComplete.connect(self.test_data_thread.quit)

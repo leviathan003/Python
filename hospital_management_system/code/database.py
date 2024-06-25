@@ -33,6 +33,19 @@ class ConnectionPool:
         finally:
             self.release_connection(conn)
 
+def authClient(pool,data):
+    with pool.connection() as conn:
+        cur = conn.cursor()
+        cur.execute("SELECT exists(SELECT 1 FROM clients WHERE client_username = ? and client_password = ?) AS row_exists;",data)
+        data = cur.fetchone()
+        return data
+
+def authAdmin(pool,data):
+    with pool.connection() as conn:
+        cur = conn.cursor()
+        cur.execute("SELECT exists(SELECT 1 FROM admin WHERE admin_username = ? and admin_password = ?) AS row_exists;",data)
+        data = cur.fetchone()
+        return data
 
 def showEmergencyBedStatus(pool):
     with pool.connection() as conn:

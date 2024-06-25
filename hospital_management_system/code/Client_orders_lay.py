@@ -93,13 +93,14 @@ class Client_orders(object):
     def verifyHealthInsurance(self):
         if self.dataCheck():
             pool = ConnectionPool(5, 'hms_database.db')
-            hi_no = checkHealthInsurance(pool,self.patNameEntry.toPlainText(),self.patPhoneEntry.toPlainText())
-            if(str(hi_no) == self.hiNoEntry.toPlainText()):
+            hi_no = checkHealthInsurance(pool,self.patNameEntry.toPlainText().strip(),self.patPhoneEntry.toPlainText().strip())
+            if(str(hi_no) == self.hiNoEntry.toPlainText().strip()):
                 self.showWarningMessage("Account Verified and Insurance Number found!!")
                 self.healthInsuranceWaiver = True
                 self.insuranceDisp.setText("100%")
             else:
                 self.showWarningMessage("Insurance Number not registered!!")
+                self.insuranceDisp.setText("0%")    
 
     def updateMedsTable(self,data):
         self.med_data_thread.retrievalComplete.connect(self.med_data_thread.quit)
@@ -520,7 +521,7 @@ class Client_orders(object):
         item = self.tableMeds.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "COST"))
         self.label.setText(_translate("MainWindow", "INSURANCE WAIVER:"))
-        self.insuranceDisp.setText(_translate("MainWindow", "TextLabel"))
+        self.insuranceDisp.setText(_translate("MainWindow", "0%"))
         self.label_2.setText(_translate("MainWindow", "GRAND TOTAL:"))
         self.grandTotDisp.setText(_translate("MainWindow", "0"))
         item = self.tableOrder.horizontalHeaderItem(0)

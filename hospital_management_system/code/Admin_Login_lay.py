@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'login_as_lay.ui'
+# Form implementation generated from reading ui file 'admin_login_lay.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -10,24 +10,43 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from clickableFrame import ClickableFrame
+from database import ConnectionPool,authAdmin
 
-class Login_as_lay(object):
+class Admin_Login(object):
     
     def gotoAdminFlow(self):
-        from Admin_Login_lay import Admin_Login
+        from Admin_homepage_lay import Admin_home_lay
         self.window = QtWidgets.QMainWindow()
-        self.ui = Admin_Login()
+        self.ui = Admin_home_lay()
         self.ui.setupUi(self.window)
         self.window.show()
-        self.login_as.close()
+        self.admin_login.close()
+        
+    def showWarningMessage(self,message):
+        msgBox = QtWidgets.QMessageBox()
+        msgBox.setIcon(QtWidgets.QMessageBox.Warning)
+        msgBox.setWindowTitle("Warning")
+        msgBox.setText(message)
+        msgBox.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        msgBox.exec_()
 
-    def gotoClientFlow(self):
-        from Client_Login_lay import Client_Login
+    def verifyEntry(self,data):
+        if ((len(data[0])==0) or (len(data[1])==0)):
+                self.showWarningMessage("Both fields are mandatory!!")
+        else:
+                pool = ConnectionPool(5, 'hms_database.db')
+                if(authAdmin(pool,data)[0]==1):
+                        self.gotoAdminFlow()
+                else:
+                     self.showWarningMessage("Username or Password is incorrect!!")
+    
+    def backtoLoginAs(self):
+        from Login_as_lay import Login_as_lay
         self.window = QtWidgets.QMainWindow()
-        self.ui = Client_Login()
+        self.ui = Login_as_lay()
         self.ui.setupUi(self.window)
         self.window.show()
-        self.login_as.close()
+        self.admin_login.close()
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -35,7 +54,7 @@ class Login_as_lay(object):
         MainWindow.showMaximized()
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.login_as = MainWindow
+        self.admin_login = MainWindow
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, -1)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -55,7 +74,7 @@ class Login_as_lay(object):
         self.horizontalLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.logo_frame = QtWidgets.QFrame(self.header_frame)
+        self.logo_frame = ClickableFrame(self.header_frame)
         self.logo_frame.setMinimumSize(QtCore.QSize(80, 50))
         self.logo_frame.setMaximumSize(QtCore.QSize(100, 16777215))
         self.logo_frame.setStyleSheet("background-color:transparent;\n"
@@ -69,7 +88,7 @@ class Login_as_lay(object):
         self.backBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.backBtn.setStyleSheet("")
         self.backBtn.setText("")
-        self.backBtn.setPixmap(QtGui.QPixmap(":/reosurces_logo/caduceus-svgrepo-com.svg"))
+        self.backBtn.setPixmap(QtGui.QPixmap(":/reosurces_logo/back-svgrepo-com.svg"))
         self.backBtn.setScaledContents(True)
         self.backBtn.setAlignment(QtCore.Qt.AlignCenter)
         self.backBtn.setObjectName("backBtn")
@@ -102,6 +121,7 @@ class Login_as_lay(object):
         self.frame_15.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_15.setObjectName("frame_15")
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.frame_15)
+        self.verticalLayout_22.setContentsMargins(-1, -1, -1, 0)
         self.verticalLayout_22.setObjectName("verticalLayout_22")
         self.label_19 = QtWidgets.QLabel(self.frame_15)
         font = QtGui.QFont()
@@ -115,77 +135,67 @@ class Login_as_lay(object):
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.frame)
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.gridLayout = QtWidgets.QGridLayout(self.frame)
+        self.gridLayout.setObjectName("gridLayout")
         self.frame_2 = QtWidgets.QFrame(self.frame)
+        self.frame_2.setMaximumSize(QtCore.QSize(16777215, 350))
+        self.frame_2.setStyleSheet("background-color:rgb(0, 85, 127);\n"
+"border-radius:5px;")
         self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
-        self.gridLayout = QtWidgets.QGridLayout(self.frame_2)
-        self.gridLayout.setObjectName("gridLayout")
-        self.adminBtn = ClickableFrame(self.frame_2)
-        self.adminBtn.setMaximumSize(QtCore.QSize(300, 350))
-        self.adminBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.adminBtn.setStyleSheet("BACKGROUND-color:rgb(0, 85, 127);\n"
-"COLOR:WHITE;\n"
-"BORDER-RADIUS:5PX;")
-        self.adminBtn.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.adminBtn.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.adminBtn.setObjectName("adminBtn")
-        self.adminBtn.clicked.connect(self.gotoAdminFlow)
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.adminBtn)
-        self.verticalLayout_3.setContentsMargins(0, 50, 0, 0)
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.frame_2)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.label = QtWidgets.QLabel(self.adminBtn)
-        self.label.setMaximumSize(QtCore.QSize(150, 150))
-        self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap(":/reosurces_logo/admin-with-cogwheels-svgrepo-com.svg"))
-        self.label.setScaledContents(True)
+        self.label = QtWidgets.QLabel(self.frame_2)
+        self.label.setMaximumSize(QtCore.QSize(16777215, 35))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label.setFont(font)
+        self.label.setStyleSheet("color:white;")
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
-        self.verticalLayout_3.addWidget(self.label, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
-        self.label_2 = QtWidgets.QLabel(self.adminBtn)
+        self.verticalLayout_3.addWidget(self.label)
+        self.usernameEntry = QtWidgets.QPlainTextEdit(self.frame_2)
+        self.usernameEntry.setMinimumSize(QtCore.QSize(100, 35))
+        self.usernameEntry.setMaximumSize(QtCore.QSize(16777215, 35))
         font = QtGui.QFont()
-        font.setPointSize(25)
-        self.label_2.setFont(font)
-        self.label_2.setObjectName("label_2")
-        self.verticalLayout_3.addWidget(self.label_2, 0, QtCore.Qt.AlignHCenter)
-        self.gridLayout.addWidget(self.adminBtn, 0, 0, 1, 1)
-        self.horizontalLayout_2.addWidget(self.frame_2)
-        self.frame_3 = QtWidgets.QFrame(self.frame)
-        self.frame_3.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_3.setObjectName("frame_3")
-        self.gridLayout_2 = QtWidgets.QGridLayout(self.frame_3)
-        self.gridLayout_2.setObjectName("gridLayout_2")
-        self.patientBtn = ClickableFrame(self.frame_3)
-        self.patientBtn.setMaximumSize(QtCore.QSize(300, 350))
-        self.patientBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.patientBtn.setStyleSheet("BACKGROUND-color:rgb(0, 85, 127);\n"
-"COLOR:WHITE;\n"
-"BORDER-RADIUS:5PX;")
-        self.patientBtn.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.patientBtn.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.patientBtn.setObjectName("patientBtn")
-        self.patientBtn.clicked.connect(self.gotoClientFlow)
-        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.patientBtn)
-        self.verticalLayout_4.setContentsMargins(0, 50, 0, 0)
-        self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.label_3 = QtWidgets.QLabel(self.patientBtn)
-        self.label_3.setMaximumSize(QtCore.QSize(150, 150))
-        self.label_3.setText("")
-        self.label_3.setPixmap(QtGui.QPixmap(":/reosurces_logo/patient-bed-hospital-svgrepo-com.svg"))
-        self.label_3.setScaledContents(True)
-        self.label_3.setObjectName("label_3")
-        self.verticalLayout_4.addWidget(self.label_3, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
-        self.label_4 = QtWidgets.QLabel(self.patientBtn)
+        font.setPointSize(15)
+        self.usernameEntry.setFont(font)
+        self.usernameEntry.setStyleSheet("border-radius:5px;\n"
+"background-color:white;")
+        self.usernameEntry.setObjectName("usernameEntry")
+        self.verticalLayout_3.addWidget(self.usernameEntry)
+        self.passEntry = QtWidgets.QPlainTextEdit(self.frame_2)
+        self.passEntry.setMinimumSize(QtCore.QSize(100, 35))
+        self.passEntry.setMaximumSize(QtCore.QSize(16777215, 35))
         font = QtGui.QFont()
-        font.setPointSize(25)
-        self.label_4.setFont(font)
-        self.label_4.setObjectName("label_4")
-        self.verticalLayout_4.addWidget(self.label_4, 0, QtCore.Qt.AlignHCenter)
-        self.gridLayout_2.addWidget(self.patientBtn, 0, 0, 1, 1)
-        self.horizontalLayout_2.addWidget(self.frame_3)
+        font.setPointSize(15)
+        self.passEntry.setFont(font)
+        self.passEntry.setStyleSheet("border-radius:5px;\n"
+"background-color:white;\n"
+"")
+        self.passEntry.setObjectName("passEntry")
+        self.verticalLayout_3.addWidget(self.passEntry)
+        self.loginBtn = QtWidgets.QPushButton(self.frame_2)
+        self.loginBtn.setMinimumSize(QtCore.QSize(0, 35))
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setUnderline(True)
+        self.loginBtn.setFont(font)
+        self.loginBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.loginBtn.setStyleSheet("background-color:rgb(0, 85, 127);\n"
+"color:white;\n"
+"border-radius:5px;")
+        self.loginBtn.setObjectName("loginBtn")
+        self.verticalLayout_3.addWidget(self.loginBtn)
+        self.gridLayout.addWidget(self.frame_2, 0, 0, 1, 1, QtCore.Qt.AlignHCenter)
         self.verticalLayout_2.addWidget(self.frame)
+
+        self.loginBtn.clicked.connect(lambda: self.verifyEntry((self.usernameEntry.toPlainText().strip(), self.passEntry.toPlainText().strip(),)))
+        self.logo_frame.clicked.connect(self.backtoLoginAs)
+
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -195,17 +205,9 @@ class Login_as_lay(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.title_label.setText(_translate("MainWindow", "HOSPITAL MANAGEMENT SYSTEM"))
-        self.label_19.setText(_translate("MainWindow", "PROCEED AS"))
-        self.label_2.setText(_translate("MainWindow", "ADMIN"))
-        self.label_4.setText(_translate("MainWindow", "CLIENT"))
+        self.label_19.setText(_translate("MainWindow", "ADMIN"))
+        self.label.setText(_translate("MainWindow", "LOG-IN"))
+        self.usernameEntry.setPlaceholderText(_translate("MainWindow", "Enter Username"))
+        self.passEntry.setPlaceholderText(_translate("MainWindow", "Enter Password"))
+        self.loginBtn.setText(_translate("MainWindow", "LOG-IN"))
 import resources_rc
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Login_as_lay()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
